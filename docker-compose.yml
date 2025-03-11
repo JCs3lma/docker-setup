@@ -7,6 +7,9 @@ services:
     volumes:
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./project_name:/var/www/html # replace project_name with your desired value
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
     depends_on:
       - php
 
@@ -27,7 +30,7 @@ services:
       context: ./infra/mysql
     platform: linux/x86_64
     ports:
-      - "3307:3307" # replaced 3307 if there is conflict on this port. usuall value is 3306
+      - "3307:3307" # replaced 3307 if there is conflict on this port. usuall value is 3307
     environment:
       - "LANG=C.UTF-8"
       - "MYSQL_ROOT_PASSWORD=password" # replaced password on your desired value
