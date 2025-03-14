@@ -17,6 +17,8 @@ optimize-clear:
 	docker compose exec php php artisan optimize:clear
 composer-install:
 	docker compose exec php composer install
+composer-dump-autoload:
+	docker compose exec php composer dump-autoload
 log-php-watch:
 	docker compose logs --follow php
 log-php:
