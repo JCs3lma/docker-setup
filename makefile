@@ -25,6 +25,17 @@ log-php:
 	docker compose logs php
 route-list:
 	docker compose exec php php artisan route:list
+cache:
+	docker compose exec php composer dump-autoload -o
+	@make optimize
+	docker compose exec php php artisan event:cache
+	docker compose exec php php artisan view:cache
+cache-clear:
+	docker compose exec php composer clear-cache
+	@make optimize-clear
+	docker compose exec php php artisan event:clear
+bootstrap-cache:
+	docker compose exec php chmod -R 777 storage bootstrap/cache
 
 # For nginx
 log-nginx-watch:
@@ -39,3 +50,16 @@ logs-watch:
 	docker compose logs --follow
 ps:
 	docker compose ps
+stop:
+	docker compose stop
+down:
+	docker compose down --remove-orphans
+down-v:
+	docker compose down --remove-orphans --volumes
+up:
+	docker compose up -d --build
+build:
+	docker compose build
+restart:
+	@make down
+	@make up
