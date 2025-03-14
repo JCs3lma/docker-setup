@@ -41,7 +41,7 @@ services:
   phpmyadmin:
     build:
       context: ./infra/phpmyadmin
-    restart: always
+    # restart: always
     ports:
       - 8090:80
     depends_on:
