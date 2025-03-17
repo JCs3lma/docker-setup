@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:7.3-fpm
 
 # Comment out this one if using port 9000
 RUN sed -i 's/9000/9001/' /usr/local/etc/php-fpm.d/zz-docker.conf
