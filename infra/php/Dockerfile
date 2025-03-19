@@ -15,10 +15,29 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     net-tools \
     nano \
-    libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    ffmpeg \
+    wget \
+    gcc \
+    make \
+    autoconf \
+    libtool \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql
+
+# Install Kakasi (version 2.3.6) from source
+RUN cd /usr/local/src \
+    && wget http://kakasi.namazu.org/stable/kakasi-2.3.6.tar.gz \
+    && tar -xvzf kakasi-2.3.6.tar.gz \
+    && cd kakasi-2.3.6 \
+    && ./configure \
+    && make \
+    && make install \
+    && mv /usr/local/src/kakasi-2.3.6/src/kakasi /usr/local/bin/ \
+    && rm -rf /usr/local/src/kakasi-2.3.6*
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
