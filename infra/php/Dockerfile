@@ -28,6 +28,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql
 
+# Install ImageMagick and Imagick PHP extension
+RUN apt-get update && apt-get install -y \
+    libmagickwand-dev \
+    imagemagick \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
+
 # Install Kakasi (version 2.3.6) from source
 RUN cd /usr/local/src \
     && wget http://kakasi.namazu.org/stable/kakasi-2.3.6.tar.gz \
