@@ -19,7 +19,6 @@ services:
       - "8081:9001" # replaced 9001 if there is conflict on this port.
     volumes:
       - ./darwin-real-estate-system:/var/www/html # replace project_name with your desired value
-      # - ./infra/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
       - mysql
 

@@ -1,0 +1,46 @@
+FROM php:7.4-fpm
+
+# Update and install required packages
+RUN apt-get update && apt-get install -y \
+    git \
+    zip \
+    unzip \
+    vim \
+    ca-certificates \
+    net-tools \
+    nano \
+    ffmpeg \
+    wget \
+    gcc \
+    make \
+    autoconf \
+    libtool \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install pdo_mysql
+
+# Install ImageMagick and Imagick PHP extension
+RUN apt-get update && apt-get install -y \
+    libmagickwand-dev \
+    imagemagick \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
+
+# Install Kakasi (version 2.3.6) from source
+RUN cd /usr/local/src \
+    && wget http://kakasi.namazu.org/stable/kakasi-2.3.6.tar.gz \
+    && tar -xvzf kakasi-2.3.6.tar.gz \
+    && cd kakasi-2.3.6 \
+    && ./configure \
+    && make \
+    && make install \
+    && mv /usr/local/src/kakasi-2.3.6/src/kakasi /usr/local/bin/ \
+    && rm -rf /usr/local/src/kakasi-2.3.6*
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+CMD ["php-fpm"]

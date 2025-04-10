@@ -60,6 +60,14 @@ up:
 	docker compose up -d --build
 build:
 	docker compose build
+	@make bootstrap-cache
+	@make optimize-clear
 restart:
 	@make down
 	@make up
+prune:
+	docker system prune -f
+build-prod:
+	docker compose -f docker-compose-prod.yml up -d --build
+	@make bootstrap-cache
+	@make optimize-clear
