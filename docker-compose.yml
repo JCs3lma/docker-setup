@@ -1,11 +1,11 @@
 services:
-  nginx:
+  apache:
     build:
-      context: ./infra/nginx
+      context: ./infra/apache
     ports:
-      - "8080:8080"
+      - "8080:80"
     volumes:
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./infra/apache/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
       - ./darwin-real-estate-system:/var/www/html # replace project_name with your desired value
     depends_on:
       - php
