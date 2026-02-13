@@ -14,9 +14,9 @@ services:
     build:
       context: ./infra/php
     expose:
-      - "9001" # replaced 9001 if there is conflict on this port.
+      - "9000" # replaced 9001 if there is conflict on this port.
     ports:
-      - "8081:9001" # replaced 9001 if there is conflict on this port.
+      - "8081:9000" # replaced 9001 if there is conflict on this port.
     volumes:
       - ./project_name:/var/www/html # replace project_name with your desired value
     depends_on:
@@ -27,7 +27,7 @@ services:
       context: ./infra/mysql
     platform: linux/x86_64
     ports:
-      - "3307:3307" # replaced 3307 if there is conflict on this port. usuall value is 3306
+      - "3306:3306" # replaced 3307 if there is conflict on this port. usuall value is 3306
     environment:
       - "LANG=C.UTF-8"
       - "MYSQL_ROOT_PASSWORD=password" # replaced password on your desired value
@@ -36,7 +36,7 @@ services:
       - type: volume
         source: mysql-volume
         target: /var/lib/mysql
-    command: --port=3307
+    # command: --port=3307
 
   phpmyadmin:
     build:
